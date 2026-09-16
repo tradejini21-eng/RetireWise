@@ -240,7 +240,7 @@
           <div class="space-y-2">
             <h2 class="text-3xl font-extrabold text-white tracking-tight">Successfully Submitted!</h2>
             <p class="text-zinc-300 text-sm max-w-md mx-auto leading-relaxed">
-              Thanks <span id="user-display-name" class="text-brandPink-400 font-bold"></span>! We're preparing your custom retirement blueprint and will email it to you shortly.
+              Thanks <span id="user-display-name" class="text-brandPink-400 font-bold"></span>! We are preparing your custom retirement blueprint and will email it to you shortly.
             </p>
           </div>
 
@@ -372,7 +372,7 @@
       const phone = document.getElementById('phone').value.trim();
       const email = document.getElementById('email').value.trim();
 
-      // Phone Number Rule: Strictly 10 digits
+      // Phone Number Rule: Exactly 10 numerical digits
       const phoneRegex = /^[0-9]{10}$/;
       if (!phoneRegex.test(phone)) {
         showError('phone', 'Please enter a valid 10-digit phone number.');
