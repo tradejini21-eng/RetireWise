@@ -230,11 +230,11 @@
           <div class="space-y-2">
             <h2 class="text-3xl font-extrabold text-white tracking-tight">Successfully Submitted!</h2>
             <p class="text-zinc-300 text-sm max-w-md mx-auto leading-relaxed">
-              Thank you, <span id="user-display-name" class="text-brandPink-400 font-bold"></span>! Your details have been received and your custom retirement report is now being generated.
+              Hold tight, <span id="user-display-name" class="text-brandPink-400 font-bold"></span>! 🚀 We're crunching your financial numbers right now. Our engine is analyzing inflation models, market projections, and compound yield trends to reveal exactly how close you are to financial freedom. Check your inbox shortly!
             </p>
           </div>
 
-          <!-- Exact 3-Row Box matching requested final design -->
+          <!-- Summary Card -->
           <div class="bg-zinc-900/90 border border-zinc-800/80 p-5 rounded-2xl text-left text-sm space-y-4">
             <div class="flex justify-between items-center border-b border-zinc-800/80 pb-3">
               <span class="text-zinc-400 font-medium">Target Retirement Age</span>
@@ -248,14 +248,15 @@
               <span class="text-zinc-400 font-medium">Status</span>
               <span class="flex items-center space-x-2 text-brandPink-400 font-bold">
                 <span class="w-2 h-2 rounded-full bg-brandPink-500 animate-pulse"></span>
-                <span>Processing</span>
+                <span>Generating Blueprint...</span>
               </span>
             </div>
           </div>
 
-          <button type="button" onclick="location.reload()" 
-            class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-3.5 rounded-xl transition text-sm">
-            Recalculate
+          <!-- Thank You Button -->
+          <button type="button" onclick="alert('Thank you for choosing RetireWise! Your custom report will arrive in your email shortly.')" 
+            class="w-full bg-gradient-to-r from-brandPink-500 to-brandPink-600 hover:from-brandPink-600 hover:to-brandPink-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brandPink-500/20 transition text-sm">
+            Thank You!
           </button>
         </div>
 
@@ -339,7 +340,7 @@
         console.error('Submission Error:', error);
       }
 
-      // Populate text nodes for Image 2 UI
+      // Populate text nodes for final UI
       document.getElementById('user-display-name').innerText = name;
       document.getElementById('summary-retire-age').innerText = `${retireAge} years old`;
       document.getElementById('summary-delivery-email').innerText = email;
