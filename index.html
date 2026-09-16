@@ -240,7 +240,7 @@
           <div class="space-y-2">
             <h2 class="text-3xl font-extrabold text-white tracking-tight">Successfully Submitted!</h2>
             <p class="text-zinc-300 text-sm max-w-md mx-auto leading-relaxed">
-              Hold tight, <span id="user-display-name" class="text-brandPink-400 font-bold"></span>! 🚀 We're crunching your financial numbers right now. Our engine is analyzing inflation models, market projections, and compound yield trends to reveal exactly how close you are to financial freedom. Check your inbox shortly!
+              Thanks <span id="user-display-name" class="text-brandPink-400 font-bold"></span>! We're preparing your custom retirement blueprint and will email it to you shortly.
             </p>
           </div>
 
@@ -372,14 +372,14 @@
       const phone = document.getElementById('phone').value.trim();
       const email = document.getElementById('email').value.trim();
 
-      // Rule: Phone must be exactly 10 digits
+      // Phone Number Rule: Strictly 10 digits
       const phoneRegex = /^[0-9]{10}$/;
       if (!phoneRegex.test(phone)) {
         showError('phone', 'Please enter a valid 10-digit phone number.');
         isValid = false;
       }
 
-      // Rule: Valid Email format
+      // Email Rule: Standard email address format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         showError('email', 'Please enter a valid email address.');
