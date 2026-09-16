@@ -89,12 +89,6 @@
         <!-- Web3Forms Access Key -->
         <input type="hidden" name="access_key" value="060a237e-9406-4cb2-91b3-353e11057401">
 
-        <!-- Hidden Assumption Rates -->
-        <input type="hidden" id="currentReturnRate" name="current_return_rate" value="10">
-        <input type="hidden" id="traditionalReturnRate" name="traditional_return_rate" value="4">
-        <input type="hidden" id="withdrawalRate" name="safe_withdrawal_rate" value="4">
-        <input type="hidden" id="inflationRate" name="expected_inflation_rate" value="6">
-
         <!-- STEP 1: Basic Demographics -->
         <div id="step-1" class="step-content active space-y-6">
           <div>
@@ -222,49 +216,45 @@
             </button>
             <button type="button" id="submitBtn" onclick="calculateAndShowReport()" 
               class="w-2/3 bg-gradient-to-r from-brandPink-500 to-brandPink-600 hover:from-brandPink-600 hover:to-brandPink-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brandPink-500/20 transition text-sm flex items-center justify-center">
-              <span>Calculate My Plan</span>
+              <span>Submit & Generate Plan</span>
             </button>
           </div>
         </div>
 
-        <!-- FINAL STEP: Report Results -->
+        <!-- FINAL STEP: Submission Confirmation -->
         <div id="step-success" class="step-content text-center py-4 space-y-6">
-          <div class="w-16 h-16 bg-brandPink-500/10 border-2 border-brandPink-500 rounded-full flex items-center justify-center mx-auto text-brandPink-500">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <div class="w-16 h-16 border-2 border-brandPink-500 rounded-full flex items-center justify-center mx-auto text-brandPink-500 shadow-lg shadow-brandPink-500/20">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
           </div>
 
-          <div class="space-y-1">
-            <h2 class="text-2xl font-extrabold text-white">Retirement Plan Ready!</h2>
-            <p class="text-zinc-400 text-sm max-w-md mx-auto">
-              Here is your breakdown, <span id="user-display-name" class="text-brandPink-400 font-semibold"></span>:
+          <div class="space-y-2">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Successfully Submitted!</h2>
+            <p class="text-zinc-400 text-sm max-w-md mx-auto leading-relaxed">
+              Thank you, <span id="user-display-name" class="text-brandPink-400 font-semibold"></span>! Your details have been received and your custom retirement report is now being generated.
             </p>
           </div>
 
-          <div class="bg-zinc-900/90 border border-zinc-800 p-5 rounded-2xl text-left text-sm space-y-3">
-            <div class="flex justify-between border-b border-zinc-800 pb-2">
+          <!-- Status Card -->
+          <div class="bg-zinc-900/90 border border-zinc-800/80 p-5 rounded-2xl text-left text-sm space-y-4">
+            <div class="flex justify-between items-center border-b border-zinc-800/80 pb-3">
               <span class="text-zinc-400">Target Retirement Age</span>
-              <span id="summary-retire-age" class="text-white font-medium">--</span>
+              <span id="summary-retire-age" class="text-white font-semibold">--</span>
             </div>
-            <div class="flex justify-between border-b border-zinc-800 pb-2">
-              <span class="text-zinc-400">Future Monthly Expense</span>
-              <span id="summary-future-expense" class="text-white font-medium">--</span>
+            <div class="flex justify-between items-center border-b border-zinc-800/80 pb-3">
+              <span class="text-zinc-400">Delivery Email</span>
+              <span id="summary-delivery-email" class="text-white font-semibold truncate max-w-[200px] sm:max-w-none">--</span>
             </div>
-            <div class="flex justify-between border-b border-zinc-800 pb-2">
-              <span class="text-zinc-400">Required Target Corpus</span>
-              <span id="summary-target-corpus" class="text-brandPink-400 font-bold">--</span>
-            </div>
-            <div class="flex justify-between border-b border-zinc-800 pb-2">
-              <span class="text-zinc-400">Projected Savings at Retirement</span>
-              <span id="summary-projected-corpus" class="text-white font-medium">--</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-zinc-400">Corpus Surplus / Shortfall</span>
-              <span id="summary-gap" class="font-bold">--</span>
+            <div class="flex justify-between items-center">
+              <span class="text-zinc-400">Status</span>
+              <span class="flex items-center space-x-2 text-brandPink-400 font-semibold">
+                <span class="w-2 h-2 rounded-full bg-brandPink-500 animate-pulse"></span>
+                <span>Processing</span>
+              </span>
             </div>
           </div>
 
           <button type="button" onclick="location.reload()" 
-            class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-3.5 rounded-xl transition text-sm">
+            class="w-full bg-zinc-800/90 hover:bg-zinc-700 text-white font-semibold py-3.5 rounded-xl transition text-sm border border-zinc-700/50">
             Recalculate
           </button>
         </div>
@@ -275,7 +265,7 @@
 
   <!-- Footer -->
   <footer class="w-full border-t border-zinc-900 py-6 text-center text-xs text-zinc-400">
-    © 2026 RetireWise Inc. All calculation estimates are for illustrative purposes.
+    © 2026 RetireWise Inc. All rights reserved.
   </footer>
 
   <!-- Javascript Logic -->
@@ -328,8 +318,9 @@
       const form = document.getElementById('calculatorForm');
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.innerText = "Submitting...";
+      submitBtn.disabled = true;
 
-      // Send data to Web3Forms without leaving the page
+      // Send form payload to Web3Forms
       const formData = new FormData(form);
       try {
         await fetch(form.action, {
@@ -343,65 +334,17 @@
         console.error('Submission Error:', error);
       }
 
-      // Input Values
+      // Read values to display confirmation card
       const name = document.getElementById('name').value || 'User';
-      const currentAge = parseFloat(document.getElementById('currentAge').value) || 30;
-      const retireAge = parseFloat(document.getElementById('retireAge').value) || 60;
-      const monthlyExpense = parseFloat(document.getElementById('monthlyExpense').value) || 0;
-      const currentInvestments = parseFloat(document.getElementById('currentInvestments').value) || 0;
-      const traditionalInvestments = parseFloat(document.getElementById('traditionalInvestments').value) || 0;
-      const monthlyInvestments = parseFloat(document.getElementById('monthlyInvestments').value) || 0;
+      const retireAge = document.getElementById('retireAge').value || '60';
+      const email = document.getElementById('email').value || '--';
 
-      // Hidden Rates
-      const currentReturnRate = (parseFloat(document.getElementById('currentReturnRate').value) || 10) / 100;
-      const traditionalReturnRate = (parseFloat(document.getElementById('traditionalReturnRate').value) || 4) / 100;
-      const withdrawalRate = (parseFloat(document.getElementById('withdrawalRate').value) || 4) / 100;
-      const inflationRate = (parseFloat(document.getElementById('inflationRate').value) || 6) / 100;
-
-      const yearsToRetire = Math.max(retireAge - currentAge, 0);
-
-      // Calculations
-      const futureMonthlyExpense = monthlyExpense * Math.pow(1 + inflationRate, yearsToRetire);
-      const futureAnnualExpense = futureMonthlyExpense * 12;
-      const requiredCorpus = futureAnnualExpense / withdrawalRate;
-
-      // Compound growth of existing investments
-      const futureEqInvestments = currentInvestments * Math.pow(1 + currentReturnRate, yearsToRetire);
-      const futureTradInvestments = traditionalInvestments * Math.pow(1 + traditionalReturnRate, yearsToRetire);
-
-      // Future Value of monthly SIPs
-      const monthlyRate = currentReturnRate / 12;
-      const totalMonths = yearsToRetire * 12;
-      let futureSipVal = 0;
-      if (monthlyRate > 0 && totalMonths > 0) {
-        futureSipVal = monthlyInvestments * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate) * (1 + monthlyRate);
-      } else {
-        futureSipVal = monthlyInvestments * totalMonths;
-      }
-
-      const totalProjectedCorpus = futureEqInvestments + futureTradInvestments + futureSipVal;
-      const gap = totalProjectedCorpus - requiredCorpus;
-
-      // Format Currency
-      const formatINR = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
-
-      // Render Results
+      // Update Confirmation View
       document.getElementById('user-display-name').innerText = name;
       document.getElementById('summary-retire-age').innerText = `${retireAge} years old`;
-      document.getElementById('summary-future-expense').innerText = `${formatINR(futureMonthlyExpense)} / month`;
-      document.getElementById('summary-target-corpus').innerText = formatINR(requiredCorpus);
-      document.getElementById('summary-projected-corpus').innerText = formatINR(totalProjectedCorpus);
+      document.getElementById('summary-delivery-email').innerText = email;
 
-      const gapEl = document.getElementById('summary-gap');
-      if (gap >= 0) {
-        gapEl.innerText = `+${formatINR(gap)} (Surplus)`;
-        gapEl.className = 'font-bold text-emerald-400';
-      } else {
-        gapEl.innerText = `-${formatINR(Math.abs(gap))} (Shortfall)`;
-        gapEl.className = 'font-bold text-rose-400';
-      }
-
-      // Hide progress header & show results screen
+      // Hide progress bar and show success screen
       document.getElementById('progress-container').style.display = 'none';
       document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
       document.getElementById('step-success').classList.add('active');
