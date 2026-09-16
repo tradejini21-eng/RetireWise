@@ -84,9 +84,12 @@
       </div>
 
       <!-- FORM START -->
-      <form id="calculatorForm" onsubmit="event.preventDefault();">
+      <form id="calculatorForm" action="https://api.web3forms.com/submit" method="POST" onsubmit="event.preventDefault();">
 
-        <!-- Hidden Assumption Rates (Maintains math without showing on screen) -->
+        <!-- Web3Forms Access Key -->
+        <input type="hidden" name="access_key" value="060a237e-9406-4cb2-91b3-353e11057401">
+
+        <!-- Hidden Assumption Rates -->
         <input type="hidden" id="currentReturnRate" name="current_return_rate" value="10">
         <input type="hidden" id="traditionalReturnRate" name="traditional_return_rate" value="4">
         <input type="hidden" id="withdrawalRate" name="safe_withdrawal_rate" value="4">
@@ -312,7 +315,7 @@
       }
     }
 
-    function calculateAndShowReport() {
+    async function calculateAndShowReport() {
       const currentContainer = document.getElementById('step-3');
       const inputs = currentContainer.querySelectorAll('input[required]');
       for (let input of inputs) {
@@ -320,6 +323,24 @@
           input.reportValidity();
           return;
         }
+      }
+
+      const form = document.getElementById('calculatorForm');
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.innerText = "Submitting...";
+
+      // Send data to Web3Forms without leaving the page
+      const formData = new FormData(form);
+      try {
+        await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+      } catch (error) {
+        console.error('Submission Error:', error);
       }
 
       // Input Values
