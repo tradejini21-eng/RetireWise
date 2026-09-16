@@ -221,7 +221,7 @@
           </div>
         </div>
 
-        <!-- FINAL STEP: Submission Confirmation (IMAGE 2 LAYOUT) -->
+        <!-- FINAL STEP: Submission Confirmation -->
         <div id="step-success" class="step-content text-center py-4 space-y-6">
           <div class="w-16 h-16 border-2 border-brandPink-500 rounded-full flex items-center justify-center mx-auto text-brandPink-500">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
@@ -234,7 +234,7 @@
             </p>
           </div>
 
-          <!-- Single Box with 3 Lines -->
+          <!-- Exact 3-Row Box matching requested final design -->
           <div class="bg-zinc-900/90 border border-zinc-800/80 p-5 rounded-2xl text-left text-sm space-y-4">
             <div class="flex justify-between items-center border-b border-zinc-800/80 pb-3">
               <span class="text-zinc-400 font-medium">Target Retirement Age</span>
@@ -320,6 +320,11 @@
       submitBtn.innerText = "Submitting...";
       submitBtn.disabled = true;
 
+      // Extract details before form post
+      const name = document.getElementById('name').value || 'User';
+      const retireAge = document.getElementById('retireAge').value || '60';
+      const email = document.getElementById('email').value || '--';
+
       // Send form payload to Web3Forms
       const formData = new FormData(form);
       try {
@@ -334,17 +339,12 @@
         console.error('Submission Error:', error);
       }
 
-      // Collect user details to populate confirmation UI
-      const name = document.getElementById('name').value || 'User';
-      const retireAge = document.getElementById('retireAge').value || '60';
-      const email = document.getElementById('email').value || '--';
-
-      // Update Confirmation Screen
+      // Populate text nodes for Image 2 UI
       document.getElementById('user-display-name').innerText = name;
       document.getElementById('summary-retire-age').innerText = `${retireAge} years old`;
       document.getElementById('summary-delivery-email').innerText = email;
 
-      // Hide progress bar and switch directly to confirmation screen
+      // Hide progress steps and display final confirmation card
       document.getElementById('progress-container').style.display = 'none';
       document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
       document.getElementById('step-success').classList.add('active');
