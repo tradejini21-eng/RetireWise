@@ -221,32 +221,32 @@
           </div>
         </div>
 
-        <!-- FINAL STEP: Submission Confirmation -->
+        <!-- FINAL STEP: Submission Confirmation (IMAGE 2 LAYOUT) -->
         <div id="step-success" class="step-content text-center py-4 space-y-6">
-          <div class="w-16 h-16 border-2 border-brandPink-500 rounded-full flex items-center justify-center mx-auto text-brandPink-500 shadow-lg shadow-brandPink-500/20">
+          <div class="w-16 h-16 border-2 border-brandPink-500 rounded-full flex items-center justify-center mx-auto text-brandPink-500">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
           </div>
 
           <div class="space-y-2">
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Successfully Submitted!</h2>
-            <p class="text-zinc-400 text-sm max-w-md mx-auto leading-relaxed">
-              Thank you, <span id="user-display-name" class="text-brandPink-400 font-semibold"></span>! Your details have been received and your custom retirement report is now being generated.
+            <h2 class="text-3xl font-extrabold text-white tracking-tight">Successfully Submitted!</h2>
+            <p class="text-zinc-300 text-sm max-w-md mx-auto leading-relaxed">
+              Thank you, <span id="user-display-name" class="text-brandPink-400 font-bold"></span>! Your details have been received and your custom retirement report is now being generated.
             </p>
           </div>
 
-          <!-- Status Card -->
+          <!-- Single Box with 3 Lines -->
           <div class="bg-zinc-900/90 border border-zinc-800/80 p-5 rounded-2xl text-left text-sm space-y-4">
             <div class="flex justify-between items-center border-b border-zinc-800/80 pb-3">
-              <span class="text-zinc-400">Target Retirement Age</span>
-              <span id="summary-retire-age" class="text-white font-semibold">--</span>
+              <span class="text-zinc-400 font-medium">Target Retirement Age</span>
+              <span id="summary-retire-age" class="text-white font-bold">--</span>
             </div>
             <div class="flex justify-between items-center border-b border-zinc-800/80 pb-3">
-              <span class="text-zinc-400">Delivery Email</span>
-              <span id="summary-delivery-email" class="text-white font-semibold truncate max-w-[200px] sm:max-w-none">--</span>
+              <span class="text-zinc-400 font-medium">Delivery Email</span>
+              <span id="summary-delivery-email" class="text-white font-medium truncate max-w-[200px] sm:max-w-none">--</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-zinc-400">Status</span>
-              <span class="flex items-center space-x-2 text-brandPink-400 font-semibold">
+              <span class="text-zinc-400 font-medium">Status</span>
+              <span class="flex items-center space-x-2 text-brandPink-400 font-bold">
                 <span class="w-2 h-2 rounded-full bg-brandPink-500 animate-pulse"></span>
                 <span>Processing</span>
               </span>
@@ -254,7 +254,7 @@
           </div>
 
           <button type="button" onclick="location.reload()" 
-            class="w-full bg-zinc-800/90 hover:bg-zinc-700 text-white font-semibold py-3.5 rounded-xl transition text-sm border border-zinc-700/50">
+            class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-3.5 rounded-xl transition text-sm">
             Recalculate
           </button>
         </div>
@@ -334,17 +334,17 @@
         console.error('Submission Error:', error);
       }
 
-      // Read values to display confirmation card
+      // Collect user details to populate confirmation UI
       const name = document.getElementById('name').value || 'User';
       const retireAge = document.getElementById('retireAge').value || '60';
       const email = document.getElementById('email').value || '--';
 
-      // Update Confirmation View
+      // Update Confirmation Screen
       document.getElementById('user-display-name').innerText = name;
       document.getElementById('summary-retire-age').innerText = `${retireAge} years old`;
       document.getElementById('summary-delivery-email').innerText = email;
 
-      // Hide progress bar and show success screen
+      // Hide progress bar and switch directly to confirmation screen
       document.getElementById('progress-container').style.display = 'none';
       document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
       document.getElementById('step-success').classList.add('active');
