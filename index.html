@@ -264,7 +264,7 @@
           </div>
 
           <!-- Thank You Button -->
-          <button type="button" onclick="alert('And just like that, your FIRE journey is underway! Thank You for choosing RetireWise.Tour Personalized report will reach you shortly.')" 
+          <button type="button" onclick="alert('And just like that, your FIRE journey is underway! Thank You for choosing RetireWise. Your personalized report will reach you shortly.')" 
             class="w-full bg-gradient-to-r from-brandPink-500 to-brandPink-600 hover:from-brandPink-600 hover:to-brandPink-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brandPink-500/20 transition text-sm">
             Thank You!
           </button>
@@ -337,28 +337,35 @@
       clearErrors();
       let isValid = true;
 
-      const monthlyExpense = parseFloat(document.getElementById('monthlyExpense').value);
-      const currentInvestments = parseFloat(document.getElementById('currentInvestments').value || 0);
-      const traditionalInvestments = parseFloat(document.getElementById('traditionalInvestments').value || 0);
-      const monthlyInvestments = parseFloat(document.getElementById('monthlyInvestments').value || 0);
+      const monthlyExpenseVal = document.getElementById('monthlyExpense').value;
+      const monthlyExpense = monthlyExpenseVal !== '' ? parseFloat(monthlyExpenseVal) : NaN;
+
+      const currentInvestmentsVal = document.getElementById('currentInvestments').value;
+      const currentInvestments = currentInvestmentsVal === '' ? 0 : parseFloat(currentInvestmentsVal);
+
+      const traditionalInvestmentsVal = document.getElementById('traditionalInvestments').value;
+      const traditionalInvestments = traditionalInvestmentsVal === '' ? 0 : parseFloat(traditionalInvestmentsVal);
+
+      const monthlyInvestmentsVal = document.getElementById('monthlyInvestments').value;
+      const monthlyInvestments = monthlyInvestmentsVal === '' ? 0 : parseFloat(monthlyInvestmentsVal);
 
       if (isNaN(monthlyExpense) || monthlyExpense <= 0) {
         showError('monthlyExpense', 'Please enter a valid monthly expense amount.');
         isValid = false;
       }
 
-      if (currentInvestments < 0) {
-        showError('currentInvestments', 'Amount cannot be negative.');
+      if (isNaN(currentInvestments) || currentInvestments < 0) {
+        showError('currentInvestments', 'Please enter a valid positive amount.');
         isValid = false;
       }
 
-      if (traditionalInvestments < 0) {
-        showError('traditionalInvestments', 'Amount cannot be negative.');
+      if (isNaN(traditionalInvestments) || traditionalInvestments < 0) {
+        showError('traditionalInvestments', 'Please enter a valid positive amount.');
         isValid = false;
       }
 
-      if (monthlyInvestments < 0) {
-        showError('monthlyInvestments', 'Amount cannot be negative.');
+      if (isNaN(monthlyInvestments) || monthlyInvestments < 0) {
+        showError('monthlyInvestments', 'Please enter a valid positive amount.');
         isValid = false;
       }
 
@@ -439,15 +446,15 @@
         });
       } catch (error) {
         console.error('Submission Error:', error);
+      } finally {
+        document.getElementById('user-display-name').innerText = name;
+        document.getElementById('summary-retire-age').innerText = `${retireAge} years old`;
+        document.getElementById('summary-delivery-email').innerText = email;
+
+        document.getElementById('progress-container').style.display = 'none';
+        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+        document.getElementById('step-success').classList.add('active');
       }
-
-      document.getElementById('user-display-name').innerText = name;
-      document.getElementById('summary-retire-age').innerText = `${retireAge} years old`;
-      document.getElementById('summary-delivery-email').innerText = email;
-
-      document.getElementById('progress-container').style.display = 'none';
-      document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-      document.getElementById('step-success').classList.add('active');
     }
   </script>
 </body>
